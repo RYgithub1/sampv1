@@ -23,7 +23,7 @@ class PostitEditScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.check),
             onPressed: () {
-              return FocusScope.of(context).requestFocus(FocusNode());  
+              return FocusScope.of(context).requestFocus(FocusNode());  // Close kbd
             },
           ),
         ],

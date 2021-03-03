@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'postit_screen.dart';
+import 'package:sampv1/view/postit/postit_screen.dart';
 
 
 

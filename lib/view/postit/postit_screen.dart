@@ -24,9 +24,13 @@ class _PostitScreenState extends State<PostitScreen> {
     this.loadMemoList();
   }
   void loadMemoList() {
-    SharedPreferences.getInstance().then((prefs) {
-      const key = 'memo-list';
-      if (prefs.containsKey(key)) _memoList = prefs.getStringList(key);
+    SharedPreferences.getInstance().then((prefsValuable) {
+      const key = 'memoListKey';
+      // var key = ObjectKey(_memoList[_currentIndex]);
+      // if (prefsValuable.containsKey('$key')) {
+      if (prefsValuable.containsKey(key)) {
+        _memoList = prefsValuable.getStringList(key);
+      }
       setState(() {
         isLoading = false;
       });
@@ -67,28 +71,54 @@ class _PostitScreenState extends State<PostitScreen> {
   Widget _buildList() {
     final _itemCount = _memoList.length == 0
                           ? 0
-                          : _memoList.length * 2 -1;
+                          : _memoList.length * 2 -1;   /// Divider挟むため
     return ListView.builder(
       itemCount: _itemCount,
       itemBuilder: (context, index) {
-        if (index.isOdd) return Divider(height: 1);
-        final _number = (index/2).floor();
-        final _memo = _memoList(_number);
-        return Dismissible(  
-          background: Container(color: Colors.red),
+        if (index.isOdd) return Divider(height: 1, thickness: 3);
+        final _number = (index/2).floor();  /// [.floor(): Returns the greatest integer]
+        final _memo = _memoList[_number];
+
+        return Dismissible(
+          background: Container(
+            color: Colors.green,
+            child: Icon(Icons.check),
+            alignment: Alignment.centerLeft,
+          ),
+          secondaryBackground: Container(
+            color: Colors.red,
+            child: Icon(Icons.delete),
+            alignment: Alignment.centerRight,
+          ),
+
           key: Key(_memo),
+
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
+            // if (direction == DismissDirection.startToEnd) {
+            //   final snackBar = SnackBar(content: Text('Share'));
+            //   Scaffold.of(context).showSnackBar(snackBar);
+            //   /// TODO: SHARE
+            // }
+            // if (direction == DismissDirection.endToStart) {
+            //   final snackBar = SnackBar(content: Text('Delete'));
+            //   Scaffold.of(context).showSnackBar(snackBar);
+            //   setState(() {
+            //     _memoList.removeAt(_number);
+            //     storeMemoList();
+            //   });
+            // }
             setState(() {
-              _memoList.removeAt(_number);
-              storeMemoList();
-            });
+                _memoList.removeAt(_number);
+                storeMemoList();
+              });
           },
+
           child: ListTile(
             title: Text(
               _memo,
-              style: TextStyle(fontSize: 20),
-              maxLines: 1,
+              style: TextStyle(fontSize: 20.0),
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () => Navigator.push(context, MaterialPageRoute(
@@ -111,10 +141,10 @@ class _PostitScreenState extends State<PostitScreen> {
       storeMemoList();
     });
   }
-
   void storeMemoList() async {
     final _sharedPreferences = await SharedPreferences.getInstance();
-    const key = 'memo-list';
+    const key = 'memoListKey';
+    // var key = ObjectKey(_memoList[_currentIndex]);
     final _success = await _sharedPreferences.setStringList(key, _memoList);
     if (!_success) {
       debugPrint('Failed to store value');
