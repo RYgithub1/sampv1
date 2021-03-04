@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sampv1/view/launch/launch_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'postit_edit_screen.dart';
 
@@ -44,6 +45,14 @@ class _PostitScreenState extends State<PostitScreen> {
       appBar: AppBar(
         title: Text('POST IT'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(
+              builder: (context) => LaunchScreen(),
+            )),
+          ),
+        ],
       ),
       body: _buildList(),
       floatingActionButton: FloatingActionButton(
