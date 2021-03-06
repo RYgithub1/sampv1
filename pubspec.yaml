@@ -15,6 +15,7 @@ dependencies:
   webview_flutter: ^1.0.7
   shared_preferences: ^0.5.12+4
   url_launcher: ^5.7.10
+  location: ^3.2.4
 
 
 dev_dependencies:

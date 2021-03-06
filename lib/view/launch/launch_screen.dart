@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sampv1/view/location/location_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -31,7 +32,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
           IconButton(
             icon: Icon(Icons.arrow_forward),
             onPressed: () => Navigator.push(context, MaterialPageRoute(
-              builder: (context) => null,
+              builder: (context) => LocationScreen(),
             )),
           ),
         ],
